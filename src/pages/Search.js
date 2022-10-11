@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import Category from '../components/Category';
 
 class Search extends React.Component {
   constructor() {
@@ -55,6 +56,9 @@ class Search extends React.Component {
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
         <Link data-testid="shopping-cart-button" to="/ShoppingCart">Comprar</Link>
+        <div>
+          <Category />
+        </div>
         <h3>
           { valor ? list.results.map((result, index) => (
             <div key={ index } data-testid="product">
