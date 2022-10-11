@@ -8,7 +8,7 @@ class Search extends React.Component {
     super();
     this.state = {
       search: '',
-      list: {},
+      list: [],
       valor: false,
     };
   }
