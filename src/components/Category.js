@@ -1,11 +1,12 @@
 import React from 'react';
-import { getCategories } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 class Category extends React.Component {
   constructor() {
     super();
     this.state = {
       results: [],
+      list: [],
     };
   }
 
@@ -16,16 +17,45 @@ class Category extends React.Component {
     });
   }
 
+  getCategories = async ({ target }) => {
+    const api = await getProductsFromCategoryAndQuery(target.id);
+    this.setState({
+      list: api.results,
+    });
+  };
+
   render() {
-    const { results } = this.state;
+    const { results, list } = this.state;
     return (
-      <div>
-        {results.map((result, index) => (
-          <div key={ index }>
-            <button type="button" data-testid="category">{result.name}</button>
-          </div>
-        ))}
-      </div>
+      <>
+        <div>
+          {results.map((result, index) => (
+            <div key={ index }>
+              <button
+                type="button"
+                data-testid="category"
+                id={ result.id }
+                onClick={ this.getCategories }
+              >
+                {result.name}
+
+              </button>
+            </div>
+          ))}
+        </div>
+        <div>
+          <h3>
+            {list.map((result, index) => (
+              <div key={ index } data-testid="product">
+                <p>{result.title}</p>
+                <img src={ result.thumbnail } alt="imagem do produto" />
+                <p>{result.price}</p>
+              </div>))}
+          </h3>
+        </div>
+
+      </>
+
     );
   }
 }
