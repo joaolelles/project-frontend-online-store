@@ -8,6 +8,7 @@ class Details extends React.Component {
     super();
     this.state = {
       productDetail: [],
+      cartArray: [],
     };
   }
 
@@ -22,6 +23,18 @@ class Details extends React.Component {
     this.setState({
       productDetail: getFetchId,
     });
+  };
+
+  addToCart = (valor) => {
+    const { cartArray } = this.state;
+    this.setState(({
+      cartArray: [...cartArray, valor],
+    }), () => this.save()); // setstate assincrono: ESTUDAR
+  };
+
+  save = () => {
+    const { cartArray } = this.state; // segunda desestruturação MTO IMPORTANTE
+    localStorage.setItem('arraykey', JSON.stringify(cartArray));
   };
 
   render() {
@@ -45,7 +58,13 @@ class Details extends React.Component {
           </button>
 
         </Link>
-
+        <button
+          type="button"
+          data-testid="product-detail-add-to-cart"
+          onClick={ () => this.addToCart(productDetail) }
+        >
+          Ir
+        </button>
       </div>
     );
   }

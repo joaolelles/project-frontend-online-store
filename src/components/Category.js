@@ -8,6 +8,7 @@ class Category extends React.Component {
     this.state = {
       results: [],
       list: [],
+      cartArray: [],
     };
   }
 
@@ -23,6 +24,18 @@ class Category extends React.Component {
     this.setState({
       list: api.results,
     });
+  };
+
+  addToCart = (valor) => {
+    const { cartArray } = this.state;
+    this.setState(({
+      cartArray: [...cartArray, valor],
+    }), () => this.save());
+  };
+
+  save = () => {
+    const { cartArray } = this.state;
+    localStorage.setItem('arraykey', JSON.stringify(cartArray));
   };
 
   render() {
@@ -45,21 +58,31 @@ class Category extends React.Component {
           ))}
         </div>
         <div>
-          <h3>
-            {list.map((result, index) => (
+
+          {list.map((result) => (
+            <div key={ result.id }>
               <Link
                 to={ `/Details/${result.id}` }
-                key={ result.id }
                 data-testid="product-detail-link"
               >
-                <div key={ index } data-testid="product">
+                <div data-testid="product">
                   <p>{result.title}</p>
                   <img src={ result.thumbnail } alt="imagem do produto" />
                   <p>{result.price}</p>
                 </div>
               </Link>
-            ))}
-          </h3>
+              <button
+                type="button"
+                data-testid="product-add-to-cart"
+                onClick={ () => this.addToCart(result) }
+              >
+                Add
+
+              </button>
+
+            </div>
+          ))}
+
         </div>
 
       </>
