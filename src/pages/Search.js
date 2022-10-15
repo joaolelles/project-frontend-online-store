@@ -10,8 +10,14 @@ class Search extends React.Component {
       search: '',
       list: [],
       valor: false,
+      cartArray: [],
     };
   }
+
+  // componentDidMount() {
+  //   // const { cartArray } = this.state;
+  //   localStorage.getItem('arraykey');
+  // }
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,6 +38,18 @@ class Search extends React.Component {
       list: api,
       valor: true,
     });
+  };
+
+  addToCart = (valor) => {
+    const { cartArray } = this.state;
+    this.setState(({
+      cartArray: [...cartArray, valor],
+    }), () => this.save());
+  };
+
+  save = () => {
+    const { cartArray } = this.state;
+    localStorage.setItem('arraykey', JSON.stringify(cartArray));
   };
 
   render() {
@@ -65,6 +83,14 @@ class Search extends React.Component {
               <p>{result.title}</p>
               <img src={ result.thumbnail } alt="imagem do produto" />
               <p>{result.price}</p>
+              <button
+                type="button"
+                data-testid="product-add-to-cart"
+                onClick={ () => this.addToCart(result) }
+              >
+                Add
+
+              </button>
             </div>)) : <p>Nenhum produto foi encontrado</p> }
         </h3>
       </div>
