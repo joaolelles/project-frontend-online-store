@@ -23,9 +23,7 @@ class ShoppingCart extends Component {
             </div>
           ))
         )
-
     );
   }
 }
-
 export default ShoppingCart;
