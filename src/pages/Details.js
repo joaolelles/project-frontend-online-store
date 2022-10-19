@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../services/api';
+import Validate from '../components/Validate';
 
 class Details extends React.Component {
   constructor() {
@@ -65,6 +66,11 @@ class Details extends React.Component {
         >
           Ir
         </button>
+        {!productDetail.id ? null : (
+          <Validate
+            productId={ productDetail.id }
+          />
+        )}
       </div>
     );
   }
